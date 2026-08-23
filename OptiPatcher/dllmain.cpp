@@ -1266,7 +1266,7 @@ static void CheckForPatch()
     else if (CHECK_UE(inzoi))
     {
         // To prevent it disabling features on other vendors, mainly needed for Streamline/DLSS to work
-        std::string_view pattern("48 81 EC ? ? ? ? 80 3D ? ? ? ? ? 0F 85 ? ? ? ? 33 C9");
+        std::string_view pattern("48 81 EC 98 00 00 00 80 3D ? ? ? ? 00 0F 85");
         uintptr_t start = 0;
         void* patchAddress = nullptr;
         do
