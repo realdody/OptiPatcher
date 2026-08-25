@@ -2225,6 +2225,26 @@ static void CheckForPatch()
         }
     }
 
+    // DLSSG, Beast of Reincarnation
+    // SL plugin added with Update 1.0.9
+    else if (CHECK_UE(beastofreincarnation))
+    {
+        std::string_view pattern(
+            "80 3D ? ? ? ? ? 74 0D 80 3D ? ? ? ? ? 0F 84 ? ? ? ? 80 3D ? ? ? ? ? 0F 85 ? ? ? ? E8 ? ? ? ? 84 C0 75");
+        uintptr_t start = 0;
+        void* patchAddress = nullptr;
+        do
+        {
+            patchAddress = (void*) scanner::GetAddress(exeModule, pattern, 40, start);
+            if (patchAddress != nullptr)
+            {
+                std::vector<BYTE> patch = { 0x0C, 0x01 };
+                patcher::PatchAddress(patchAddress, &patch);
+                start = (uintptr_t) patchAddress;
+            }
+        } while (patchAddress != nullptr);
+    }
+
     // DLSSG, Mafia: The Old Country
     else if (exeName == "mafiatheoldcountry.exe")
     {
