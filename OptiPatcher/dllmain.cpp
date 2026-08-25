@@ -442,29 +442,14 @@ static void CheckForPatch()
     // inline patch
     else if (CHECK_UE(stalker2))
     {
-        std::string_view pattern("33 D2 E8 ? ? ? ? 81 3D ? ? ? ? ? ? ? ?");
+        std::string_view pattern("E8 ? ? ? ? 84 C0 0F 84 ? ? ? ? 85 FF 7E");
         auto patchAddress = (void*) scanner::GetAddress(exeModule, pattern, 7);
 
         if (patchAddress != nullptr)
         {
-            std::vector<BYTE> patch = { 0x39, 0xC0, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
+            std::vector<BYTE> patch = { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
             patcher::PatchAddress(patchAddress, &patch);
             _patchResult = true;
-        }
-
-        // Pre-1.7 update
-        else
-        {
-            std::string_view pattern2("49 8B C6 8B 34 30 89 75 90 E8 ? ? ? ? 84 C0 75");
-            auto patchAddress2 = (void*) scanner::GetAddress(exeModule, pattern2, 14);
-
-            if (patchAddress2 != nullptr)
-            {
-                std::vector<BYTE> patch = { 0x0C, 0x01 };
-                patcher::PatchAddress(patchAddress2, &patch);
-            }
-
-            _patchResult = patchAddress2 != nullptr;
         }
     }
 
@@ -2086,37 +2071,19 @@ static void CheckForPatch()
     // inline patch
     else if (CHECK_UE(stalker2))
     {
-        std::string_view pattern("0F 85 ? ? ? ? 81 3D ? ? ? ? ? ? ? ? 0F 85"); // covers SL and extra r14b ones
+        std::string_view pattern("E8 ? ? ? ? 84 C0 0F 84 ? ? ? ? 80 3D ? ? ? ? ? 0F 85 ? ? ? ? F6 05");
         uintptr_t start = 0;
         void* patchAddress = nullptr;
         do
         {
-            patchAddress = (void*) scanner::GetAddress(exeModule, pattern, 6, start);
+            patchAddress = (void*) scanner::GetAddress(exeModule, pattern, 7, start);
             if (patchAddress != nullptr)
             {
-                std::vector<BYTE> patch = { 0x39, 0xC0, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
+                std::vector<BYTE> patch = { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
                 patcher::PatchAddress(patchAddress, &patch);
                 start = (uintptr_t) patchAddress;
             }
         } while (patchAddress != nullptr);
-
-        // Pre-1.7 update
-        if (patchAddress == nullptr)
-        {
-            std::string_view pattern2("75 ? C7 05 ? ? ? ? 02 00 00 00 B8 02 00 00 00");
-            uintptr_t start = 0;
-            void* patchAddress2 = nullptr;
-            do
-            {
-                patchAddress2 = (void*) scanner::GetAddress(exeModule, pattern2, 0, start);
-                if (patchAddress2 != nullptr)
-                {
-                    std::vector<BYTE> patch = { 0xEB };
-                    patcher::PatchAddress(patchAddress2, &patch);
-                    start = (uintptr_t) patchAddress2;
-                }
-            } while (patchAddress2 != nullptr);
-        }
     }
 
     // Halo: Campaign Evolved
