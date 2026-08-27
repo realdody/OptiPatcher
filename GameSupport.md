@@ -133,6 +133,7 @@ TEMPLATE FOR NEW ENTRIES
 | Red Dead Redemption 2 | ✔️ | N/A | _Check [link](https://github.com/optiscaler/OptiScaler/issues/388#issuecomment-3173010106) for install, thanks to 0x-FADED_ |
 | Redfall | ✔️ | ✅ |  |
 | REMNANT II | ✔️ | ✅ |  |
+| Resonance: A Plague Tale Legacy | ✔️ | ✅ |  |
 | Revenge of the Savage Planet | ✔️ | N/A |  |
 | Riven (2024) | ✔️ | N/A |  |
 | Robocop Rogue City | ✔️ | ✅ |  |
