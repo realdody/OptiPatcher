@@ -14,6 +14,7 @@ TEMPLATE FOR NEW ENTRIES
 | Achilles: Legends Untold | ✔️ | N/A |  |
 | Ad Infinitum | ✔️ | N/A |  |
 | Alien: Rogue Incursion Evolved Edition | ✔️ | ✅ |  |
+| Aliens: Fireteam Elite 2 | ✔️ | N/A |  |
 | Alone in the Dark 2024 | ✔️ | N/A |  |
 | Amid Evil | ✔️ | N/A |  |
 | A Plague Tale: Requiem | ✔️ | ✅ | _SL1, no HUDless_ |
