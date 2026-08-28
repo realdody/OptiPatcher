@@ -1511,6 +1511,20 @@ static void CheckForPatch()
         }
     }
 
+    // 1666: Amsterdam
+    else if (exeName == "1666amsterdam.exe")
+    {
+        std::string_view pattern("BA 98 16 00 00 84 C0 75");
+        auto patchAddress = (void*) scanner::GetAddress(exeModule, pattern, 5);
+
+        if (patchAddress != nullptr)
+        {
+            std::vector<BYTE> patch = { 0x0C, 0x01 };
+            patcher::PatchAddress(patchAddress, &patch);
+            _patchResult = true;
+        }
+    }
+
     // DOOM Eternal
     // just nops a line for main game exe
     else if (exeName == "doometernalx64vk.exe")
@@ -1675,13 +1689,15 @@ static void CheckForPatch()
     // Assetto Corsa Rally, SpongeBob SquarePants: Titans of the Tide, Styx: Blades of Greed (+ Demo), ROMEO IS A DEAD
     // MAN, High On Life 2, Far Far West, Solasta II, I Am Jesus Christ, Samson, Star Trek: Voyager - Across the
     // Unknown, Super Meat Boy 3D, Dead as Disco, Conan Exiles Enhanced, Deep Rock Galactic: Rogue Core, Grounded 2,
-    // Fatekeeper, Gothic 1 Remake, The Sinking City 2, DragonSword : Awakening, The Mound: Omen of Cthulhu
+    // Fatekeeper, Gothic 1 Remake, The Sinking City 2, DragonSword : Awakening, The Mound: Omen of Cthulhu, 1666:
+    // Amsterdam
     else if (CHECK_UE(keeper) || CHECK_UE(paganidol) || CHECK_UE(bloodlines2) || CHECK_UE(stygian) ||
              CHECK_UE(voyagesteam) || exeName == "acr.exe" || CHECK_UE(ghost) || CHECK_UE(styx3) || CHECK_UE(sevgame) ||
              CHECK_UE(highonlife2) || CHECK_UE(farfarwest) || CHECK_UE(brimstone) || CHECK_UE(imjch) ||
              CHECK_UE(cjsteam) || CHECK_UE(stvoyagersteam) || CHECK_UE(smb) || CHECK_UE(pagodasteam) ||
              CHECK_UE(conansandbox) || CHECK_UE(roguecore) || CHECK_UE(grounded2steam) || CHECK_UE(slasher) ||
-             CHECK_UE(g1r) || exeName == "thesinkingcity2.exe" || CHECK_UE(dsclient) || CHECK_UE(themound))
+             CHECK_UE(g1r) || exeName == "thesinkingcity2.exe" || CHECK_UE(dsclient) || CHECK_UE(themound) ||
+             exeName == "1666amsterdam.exe")
     {
         std::string_view pattern("75 ? C7 05 ? ? ? ? 02 00 00 00 B8 02 00 00 00");
         uintptr_t start = 0;

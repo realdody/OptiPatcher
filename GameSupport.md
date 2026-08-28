@@ -9,6 +9,7 @@ TEMPLATE FOR NEW ENTRIES
 
 | Game | DLSS | DLSS-FG | Notes  |
 | ---- | :--: | :-----: | ------ |
+| 1666: Amsterdam | ✔️ | ✅ |  |
 | 171 | ✔️ | ✅ |  |
 | Achilles: Legends Untold | ✔️ | N/A |  |
 | Ad Infinitum | ✔️ | N/A |  |
