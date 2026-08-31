@@ -2351,6 +2351,38 @@ static void CheckForPatch()
         }
     }
 
+    // Streamline
+    else if (exeName == "nms.exe")
+    {
+        // slShutdown on vendor string name comparison
+        std::string_view pattern("48 85 C0 0F 84 ? ? ? ? 48 8D 1D ? ? ? ? 48 8B CB");
+        uintptr_t start = 0;
+        void* patchAddress = (void*) scanner::GetAddress(exeModule, pattern, 0, start);
+
+        if (patchAddress != nullptr)
+        {
+            std::vector<BYTE> patch = {
+                0xEB,
+                0x6E,
+            };
+            patcher::PatchAddress(patchAddress, &patch);
+        }
+
+        // sl dispatch check, var set by a vendorid != amd
+        // check controls call to a function that calls slIsFeatureSupported(1000)
+        std::string_view pattern2("80 3D ? ? ? ? ? 74 ? E8 ? ? ? ? 0F B6 05");
+        start = 0;
+        patchAddress = (void*) scanner::GetAddress(exeModule, pattern2, 0, start);
+
+        if (patchAddress != nullptr)
+        {
+            std::vector<BYTE> patch = { 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
+            patcher::PatchAddress(patchAddress, &patch);
+
+            _patchResult = true;
+        }
+    }
+
     //// Crimson Desert
     // else if (exeName == "NOT-crimsondesert.exe")
     //{
