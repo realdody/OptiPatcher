@@ -2351,7 +2351,7 @@ static void CheckForPatch()
         }
     }
 
-    // Streamline
+    // Streamline, No Man's Sky
     else if (exeName == "nms.exe")
     {
         // slShutdown on vendor string name comparison
