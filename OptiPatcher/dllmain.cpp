@@ -1540,6 +1540,20 @@ static void CheckForPatch()
         }
     }
 
+    // The Blood of Dawnwalker
+    else if (exeName == "dawnwalker.exe")
+    {
+        std::string_view pattern("48 8B 0D ? ? ? ? 33 D2 E8 ? ? ? ? 81 3D ? ? ? ? ? ? ? ? 0F 85");
+        auto patchAddress = (void*) scanner::GetAddress(exeModule, pattern, 14);
+
+        if (patchAddress != nullptr)
+        {
+            std::vector<BYTE> patch = { 0x39, 0xC0, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
+            patcher::PatchAddress(patchAddress, &patch);
+            _patchResult = true;
+        }
+    }
+
     // DOOM Eternal
     // just nops a line for main game exe
     else if (exeName == "doometernalx64vk.exe")
@@ -2362,6 +2376,19 @@ static void CheckForPatch()
             };
             patcher::PatchAddress(patchAddress, &patch);
             _patchResult = true;
+        }
+    }
+
+    // DLSSG, The Blood of Dawnwalker
+    else if (exeName == "dawnwalker.exe")
+    {
+        std::string_view pattern("81 3D ? ? ? ? ? ? ? ? 0F 85 ? ? ? ? E8 ? ? ? ? 84 C0 0F 84 ? ? ? ? 48 8B 3D ? ? ? ? "
+                                 "48 8B CF 48 8B 07 FF 50 38");
+        auto patchAddress = (void*) scanner::GetAddress(exeModule, pattern, 0);
+        if (patchAddress != nullptr)
+        {
+            std::vector<BYTE> patch = { 0x39, 0xC0, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90 };
+            patcher::PatchAddress(patchAddress, &patch);
         }
     }
 
